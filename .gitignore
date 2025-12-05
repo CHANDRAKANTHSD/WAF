@@ -12,3 +12,6 @@ catboost_info/
 # IDE
 .vscode/
 .idea/
+
+# Exclude specific large files
+broken authencn/archive (5)/rba-dataset.csv
