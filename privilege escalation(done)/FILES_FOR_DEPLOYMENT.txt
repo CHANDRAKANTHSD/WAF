@@ -1,0 +1,235 @@
+================================================================================
+                    FILES REQUIRED FOR DEPLOYMENT
+================================================================================
+
+📍 Location: D:\Major_project\Honnushree\privilege escalation\
+
+================================================================================
+✅ REQUIRED FILES (Copy these to your production server)
+================================================================================
+
+📁 model/ folder (4 files):
+├── catboost_waf_model.cbm          8.31 MB   ✅ REQUIRED
+├── lightgbm_waf_model.pkl          0.91 MB   ✅ REQUIRED
+├── label_encoders.pkl             70.14 MB   ✅ REQUIRED
+└── feature_info.pkl                0.29 KB   ✅ REQUIRED
+
+📄 Python wrapper:
+└── ensemble_model.py              12.73 KB   ✅ REQUIRED
+
+--------------------------------------------------------------------------------
+TOTAL SIZE: ~79.5 MB
+TOTAL FILES: 5 files
+--------------------------------------------------------------------------------
+
+================================================================================
+📦 DEPLOYMENT PACKAGE STRUCTURE
+================================================================================
+
+your_backend_project/
+├── model/
+│   ├── catboost_waf_model.cbm          ← Copy this
+│   ├── lightgbm_waf_model.pkl          ← Copy this
+│   ├── label_encoders.pkl              ← Copy this
+│   └── feature_info.pkl                ← Copy this
+│
+└── ensemble_model.py                    ← Copy this
+
+================================================================================
+🚀 HOW TO DEPLOY
+================================================================================
+
+STEP 1: Copy files to your server
+----------------------------------
+Windows PowerShell:
+    New-Item -ItemType Directory -Path "deployment"
+    Copy-Item -Path "model" -Destination "deployment\" -Recurse
+    Copy-Item -Path "ensemble_model.py" -Destination "deployment\"
+
+Linux/Mac:
+    mkdir deployment
+    cp -r model deployment/
+    cp ensemble_model.py deployment/
+
+STEP 2: Install dependencies on server
+---------------------------------------
+    pip install catboost lightgbm pandas numpy scikit-learn
+
+STEP 3: Use in your code
+-------------------------
+    from ensemble_model import EnsembleWAFDetector
+    
+    detector = EnsembleWAFDetector()
+    result = detector.predict(features)
+    
+    print(result['ensemble']['label'])
+    print(result['ensemble']['confidence_percent'])
+
+================================================================================
+❌ NOT NEEDED FOR DEPLOYMENT (Reference only)
+================================================================================
+
+Documentation:
+├── MODEL_COMPARISON_GUIDE.md
+├── DEPLOYMENT_GUIDE.md
+├── ENSEMBLE_SUMMARY.md
+├── DEPLOYMENT_CHECKLIST.md
+├── FILES_FOR_DEPLOYMENT.txt (this file)
+├── README.md
+└── QUICK_START.md
+
+Training/Testing Scripts:
+├── waf_privilege_escalation_detection.py
+├── load_and_predict.py
+├── verify_installation.py
+├── model_evaluation_report.py
+└── test_system.py
+
+Dataset Files:
+├── CLOUD_VULRABILITES_DATASET.jsonl
+├── Attack_Dataset.csv
+└── embedded_system_network_security_dataset.csv
+
+Other Model Files (not needed):
+├── model/catboost_waf_model.pkl (duplicate, use .cbm instead)
+└── model/lightgbm_waf_model.txt (duplicate, use .pkl instead)
+
+================================================================================
+✅ VERIFICATION
+================================================================================
+
+After copying files, test with:
+
+    python -c "from ensemble_model import EnsembleWAFDetector; d = EnsembleWAFDetector(); print('✅ Deployment successful!')"
+
+Expected output:
+    Loading Ensemble WAF Detector...
+    ✓ CatBoost model loaded
+    ✓ LightGBM model loaded
+    ✓ Label encoders loaded
+    ✓ Feature info loaded
+    ✓ Ensemble detector ready!
+    ✅ Deployment successful!
+
+================================================================================
+📊 FILE DETAILS
+================================================================================
+
+catboost_waf_model.cbm (8.31 MB)
+    - CatBoost model in native format
+    - Used for predictions
+    - Loads faster than .pkl format
+
+lightgbm_waf_model.pkl (0.91 MB)
+    - LightGBM model in pickle format
+    - Used for predictions
+    - Compatible with scikit-learn
+
+label_encoders.pkl (70.14 MB)
+    - Encoders for categorical features
+    - Converts text to numbers
+    - Required for preprocessing
+
+feature_info.pkl (0.29 KB)
+    - Feature metadata
+    - Lists categorical vs numerical features
+    - Required for proper feature handling
+
+ensemble_model.py (12.73 KB)
+    - Python wrapper class
+    - Loads both models
+    - Combines predictions (ensemble)
+    - Provides easy-to-use API
+
+================================================================================
+🔧 DEPENDENCIES
+================================================================================
+
+Required Python packages:
+    catboost==1.2.0
+    lightgbm==4.0.0
+    pandas==2.0.0
+    numpy==1.24.0
+    scikit-learn==1.3.0
+
+Install command:
+    pip install catboost lightgbm pandas numpy scikit-learn
+
+Or use requirements.txt:
+    pip install -r requirements.txt
+
+================================================================================
+💻 USAGE EXAMPLE
+================================================================================
+
+from ensemble_model import EnsembleWAFDetector
+
+# Initialize once at startup
+detector = EnsembleWAFDetector()
+
+# Prepare features
+features = {
+    'attack_category': 'IAM Misconfiguration',
+    'attack_type': 'Privilege Escalation',
+    'target_system': 'AWS',
+    'mitre_technique': 'T1078 (Valid Accounts)',
+    'packet_size': 0.5,
+    'inter_arrival_time': 0.3,
+    'packet_count_5s': 0.8,
+    'mean_packet_size': 0.0,
+    'spectral_entropy': 0.7,
+    'frequency_band_energy': 0.6
+}
+
+# Get prediction
+result = detector.predict(features)
+
+# Use result
+if result['ensemble']['risk_level'] in ['CRITICAL', 'HIGH']:
+    action = 'BLOCK'
+elif result['ensemble']['risk_level'] == 'MEDIUM':
+    action = 'FLAG'
+else:
+    action = 'ALLOW'
+
+print(f"Action: {action}")
+print(f"Confidence: {result['ensemble']['confidence_percent']:.2f}%")
+
+================================================================================
+📞 QUICK REFERENCE
+================================================================================
+
+Minimum files needed: 5
+Total size: ~79.5 MB
+Python version: 3.7+
+RAM required: 2GB minimum
+Disk space: 100MB minimum
+
+Copy command (Windows):
+    Copy-Item -Path "model","ensemble_model.py" -Destination "your_server_path\" -Recurse
+
+Copy command (Linux):
+    scp -r model ensemble_model.py user@server:/path/to/backend/
+
+Test command:
+    python ensemble_model.py
+
+================================================================================
+✨ YOU'RE READY TO DEPLOY!
+================================================================================
+
+Just copy these 5 files:
+    ✅ model/catboost_waf_model.cbm
+    ✅ model/lightgbm_waf_model.pkl
+    ✅ model/label_encoders.pkl
+    ✅ model/feature_info.pkl
+    ✅ ensemble_model.py
+
+Total: ~79.5 MB
+
+Then use:
+    from ensemble_model import EnsembleWAFDetector
+    detector = EnsembleWAFDetector()
+    result = detector.predict(features)
+
+================================================================================

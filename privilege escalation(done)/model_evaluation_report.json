@@ -1,0 +1,141 @@
+{
+  "project_info": {
+    "title": "WAF Privilege Escalation Detection",
+    "date": "November 22, 2025",
+    "version": "1.0.0",
+    "datasets": [
+      "Attack_Dataset.csv (14,133 records)",
+      "CLOUD_VULRABILITES_DATASET.jsonl (1,200 records)",
+      "embedded_system_network_security_dataset.csv (1,000 records)"
+    ],
+    "total_samples": 16333,
+    "training_samples": 13066,
+    "test_samples": 3267,
+    "positive_class_ratio": "10.22%"
+  },
+  "catboost_model": {
+    "hyperparameters": {
+      "iterations": 1000,
+      "learning_rate": 0.05,
+      "depth": 8,
+      "l2_leaf_reg": 3,
+      "border_count": 128,
+      "auto_class_weights": "Balanced",
+      "early_stopping_rounds": 50,
+      "actual_iterations": 145
+    },
+    "performance": {
+      "accuracy": 0.8375,
+      "precision": 0.3459,
+      "recall": 0.6617,
+      "f1_score": 0.4543,
+      "roc_auc": 0.8483
+    },
+    "confusion_matrix": {
+      "true_negatives": 2515,
+      "false_positives": 418,
+      "false_negatives": 113,
+      "true_positives": 221
+    },
+    "confidence_scores": {
+      "mean": 0.3322,
+      "median": 0.2872,
+      "std": 0.2351,
+      "min": 0.0178,
+      "max": 0.9994
+    },
+    "model_files": [
+      "model/catboost_waf_model.cbm (8.3 MB)",
+      "model/catboost_waf_model.pkl (8.3 MB)"
+    ]
+  },
+  "lightgbm_model": {
+    "hyperparameters": {
+      "n_estimators": 500,
+      "learning_rate": 0.1,
+      "max_depth": 6,
+      "num_leaves": 31,
+      "min_child_samples": 10,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "scale_pos_weight": 8.78,
+      "actual_iterations": 293
+    },
+    "performance": {
+      "accuracy": 0.8834,
+      "precision": 0.4495,
+      "recall": 0.6257,
+      "f1_score": 0.5232,
+      "roc_auc": 0.8689
+    },
+    "confusion_matrix": {
+      "true_negatives": 2677,
+      "false_positives": 256,
+      "false_negatives": 125,
+      "true_positives": 209
+    },
+    "confidence_scores": {
+      "mean": 0.2265,
+      "median": 0.1255,
+      "std": 0.2534,
+      "min": 0.0001,
+      "max": 0.999
+    },
+    "model_files": [
+      "model/lightgbm_waf_model.pkl (906 KB)",
+      "model/lightgbm_waf_model.txt (898 KB)"
+    ]
+  },
+  "feature_engineering": {
+    "categorical_features": [
+      "attack_category",
+      "attack_type",
+      "target_system",
+      "mitre_technique"
+    ],
+    "numerical_features": [
+      "packet_size",
+      "inter_arrival_time",
+      "packet_count_5s",
+      "mean_packet_size",
+      "spectral_entropy",
+      "frequency_band_energy"
+    ],
+    "total_features": 10
+  },
+  "comparison": {
+    "winner_by_metric": {
+      "accuracy": "LightGBM (88.34% vs 83.75%)",
+      "precision": "LightGBM (44.95% vs 34.59%)",
+      "recall": "CatBoost (66.17% vs 62.57%)",
+      "f1_score": "LightGBM (52.32% vs 45.43%)",
+      "roc_auc": "LightGBM (86.89% vs 84.83%)",
+      "training_speed": "CatBoost (6s vs 18s)"
+    },
+    "false_positives": {
+      "catboost": 418,
+      "lightgbm": 256,
+      "winner": "LightGBM (38.8% reduction)"
+    },
+    "false_negatives": {
+      "catboost": 113,
+      "lightgbm": 125,
+      "winner": "CatBoost (9.6% reduction)"
+    }
+  },
+  "recommendations": {
+    "production_deployment": "LightGBM (better overall metrics)",
+    "high_recall_scenarios": "CatBoost (fewer missed attacks)",
+    "balanced_approach": "Ensemble of both models",
+    "real_time_inference": "CatBoost (faster prediction)",
+    "batch_processing": "LightGBM (better accuracy)"
+  },
+  "key_achievements": [
+    "Sequential training on 3 diverse datasets",
+    "Native categorical feature handling",
+    "Automatic class weight balancing",
+    "86.89% ROC-AUC score achieved",
+    "Production-ready models with confidence scores",
+    "Multiple model format support (.pkl, .cbm, .txt)"
+  ]
+}
