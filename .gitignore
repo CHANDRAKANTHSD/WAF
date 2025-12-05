@@ -1,2 +1,14 @@
+# Large dataset files
 *.csv
-**/label_encoders.pkl
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Model training artifacts
+catboost_info/
+
+# IDE
+.vscode/
+.idea/
