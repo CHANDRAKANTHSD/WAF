@@ -1,0 +1,42 @@
+{
+  "timestamp": "2025-11-28T16:00:23.015649",
+  "models": {
+    "XGBoost": {
+      "precision": 0.16487549724181885,
+      "recall": 0.5752185247661402,
+      "f1_score": 0.25629024819363544,
+      "auc_roc": 0.6911688763651674,
+      "latency_ms": 0.008493900299072266
+    },
+    "LSTM": {
+      "precision": 0.13912030321032684,
+      "recall": 0.7720952819097275,
+      "f1_score": 0.23576008022819772,
+      "auc_roc": 0.6652155283787446,
+      "latency_ms": 0.48156046867370605
+    }
+  },
+  "feature_names": [
+    "login_attempts",
+    "failed_attempts",
+    "failed_ratio",
+    "session_duration",
+    "ip_changes",
+    "country_changes",
+    "abnormal_rtt",
+    "device_type",
+    "hour",
+    "day_of_week",
+    "is_night",
+    "is_weekend"
+  ],
+  "sequential_training": {
+    "stage_1": "Mobile Security Dataset",
+    "stage_2": "Cybersecurity Attack Dataset",
+    "stage_3": "RBA Dataset"
+  },
+  "data_handling": {
+    "imbalance_method": "SMOTE",
+    "scaling": "StandardScaler"
+  }
+}
